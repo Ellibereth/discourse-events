@@ -85,6 +85,24 @@ export default {
       }
     });
 
+      @observes('composer.showEventControls', 'composer.composeState')
+      applyEventInlineClass() {
+        Ember.run.scheduleOnce('afterRender', this, () => {
+          const showEventControls = this.get('composer.showEventControls');
+          const $container = $('.edit-topic .title-and-category');
+
+          $container.toggleClass('show-event-controls', Boolean(showEventControls));
+
+          if (showEventControls) {
+            const $anchor = this.site.mobileView ? $container.find('.title-input') : $container;
+            $('.composer-controls-event').appendTo($anchor);
+          }
+
+          this.resize();
+        });
+      }
+    });
+
     NavItem.reopenClass({
       buildList(category, args) {
         let items = this._super(category, args);
