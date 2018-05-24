@@ -82,7 +82,7 @@ export default {
       @observes('editingTopic')
       setEditingTopicOnModel() {
         this.set('model.editingTopic', this.get('editingTopic'));
-      }
+      },
 
       @observes('composer.showEventControls', 'composer.composeState')
       applyEventInlineClass() {
