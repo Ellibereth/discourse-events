@@ -79,9 +79,7 @@ export default {
 
     // necessary because topic-title plugin outlet only recieves model
 
-    TopicController.serializeToTopic('event', 'topic.event');
-
-    TopicController.reopen({
+    TopicsController.reopen({
       @observes('editingTopic.event')
       setEditingTopicOnModel() {
         this.set('model.editingTopic', this.get('editingTopic'));
