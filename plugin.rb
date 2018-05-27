@@ -227,6 +227,8 @@ after_initialize do
 
   PostRevisor.track_topic_field(:event)
 
+  PostRevisor.track_topic_field(:title)
+
   PostRevisor.class_eval do
     track_topic_field(:event) do |tc, event|
       if tc.guardian.can_edit_event?(tc.topic.category)

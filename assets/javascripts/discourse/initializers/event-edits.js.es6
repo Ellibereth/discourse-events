@@ -79,7 +79,7 @@ export default {
 
     // necessary because topic-title plugin outlet only recieves model
     TopicController.reopen({
-      @observes('editingTopic.event')
+      @observes('editingTopic')
       setEditingTopicOnModel() {
         this.set('model.editingTopic', this.get('editingTopic'));
       },
