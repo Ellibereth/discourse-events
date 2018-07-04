@@ -184,8 +184,6 @@ require_dependency "edit_rate_limiter"
 require_dependency 'post_locker'
 class ::TopicChanges
 
-  puts "FIELDS: #{@fields.inspect}"
-
   Post.transaction do
     revise_post
 
@@ -244,7 +242,6 @@ class ::TopicChanges
   PostRevisor.track_topic_field(:event)
 
   PostRevisor.class_eval do
-    puts "EVENT: #{event.inspect}"
     track_topic_field(:event) do |tc, event|
       puts "EVENT: #{event.inspect}"
       if tc.guardian.can_edit_event?(tc.topic.category)
