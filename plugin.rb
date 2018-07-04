@@ -177,8 +177,24 @@ after_initialize do
       else
         nil
       end
-    end
+    
   end
+
+require_dependency "edit_rate_limiter"
+require_dependency 'post_locker'
+class ::TopicChanges
+
+  puts "FIELDS: #{@fields.inspect}"
+
+  Post.transaction do
+    revise_post
+
+    plugin_callbacks
+
+    revise_topic
+    advance_draft_sequence
+  end
+
 
   require_dependency 'topic_view_serializer'
   class ::TopicViewSerializer
@@ -228,7 +244,9 @@ after_initialize do
   PostRevisor.track_topic_field(:event)
 
   PostRevisor.class_eval do
+    puts "EVENT: #{event.inspect}"
     track_topic_field(:event) do |tc, event|
+      puts "EVENT: #{event.inspect}"
       if tc.guardian.can_edit_event?(tc.topic.category)
         event_start = event['start'] ? event['start'].to_datetime.to_i : nil
         tc.record_change('event_start', tc.topic.custom_fields['event_start'], event_start)
