@@ -225,10 +225,11 @@ after_initialize do
   User.register_custom_field_type('calendar_first_day_week', :integer)
   add_to_serializer(:current_user, :calendar_first_day_week) { object.custom_fields['calendar_first_day_week'] }
 
-  PostRevisor.track_topic_field(:event)
+  PostRevisor.topic_field(:event)
 
   PostRevisor.class_eval do
     track_topic_field(:event) do |tc, event|
+      puts "EVENT: #{event.inspect}"
       if tc.guardian.can_edit_event?(tc.topic.category)
         event_start = event['start'] ? event['start'].to_datetime.to_i : nil
         tc.record_change('event_start', tc.topic.custom_fields['event_start'], event_start)
