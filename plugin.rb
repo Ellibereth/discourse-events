@@ -177,6 +177,7 @@ after_initialize do
       else
         nil
       end
+    end
     
   end
 
@@ -239,7 +240,7 @@ class ::TopicChanges
   User.register_custom_field_type('calendar_first_day_week', :integer)
   add_to_serializer(:current_user, :calendar_first_day_week) { object.custom_fields['calendar_first_day_week'] }
 
-  PostRevisor.track_topic_field(:event)
+  PostRevisor.topic_field(:event)
 
   PostRevisor.class_eval do
     track_topic_field(:event) do |tc, event|
